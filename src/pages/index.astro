@@ -2,12 +2,17 @@
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
 import Layout from '../layouts/Layout.astro';
+import Home from './home';
+
 ---
 
 <Layout title="Brawlipedia">
 	<main>
 		<Navbar/>
-		<section class="flex"><Sidebar/></section>
+		<section class="flex">
+			<Sidebar/>
+			<Home client:load/>
+		</section>
 	</main>
 </Layout>
 

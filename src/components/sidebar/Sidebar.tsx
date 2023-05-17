@@ -1,7 +1,30 @@
-import { useId } from 'react';
+import { useId, useState } from 'react';
+import { capitalizeFirst } from '../../utils/utils';
+import type { RarityObject } from '../../models/models';
+import { useStore } from '@nanostores/react';
+import { brawlerRarity } from '../../store/store';
 
-const BrawlersRarity = ['All', 'Common', 'Rare', 'Super Rare', 'Epic', 'Mythic', 'Legendary', 'Chromatic'] as const;
+
+
 const Sidebar = (): JSX.Element => {
+    const brawlersRarityObj: RarityObject = {
+        all: {label: 'all', value: true},
+        common:  {label: 'common', value: false},
+        rare:  {label: 'rare', value: false},
+        superRare:  {label: 'super rare', value: false},
+        epic: {label: 'epic', value: false},
+        mythic: {label: 'mythic', value: false},
+        legendary: {label: 'legendary', value: false},
+        chromatic: {label: 'chromatic', value: false},
+    };
+
+    const [rarityChecked, setRarityChecked] = useState({});
+
+    const handleRarityChange = (event: any) => {
+        console.log( brawlerRarity.get());
+       
+    }
+
     return (
         <div className="flex flex-col h-screen px-4 pb-4 pt-[5rem] bg-gray-800 shadow w-70">
             <div className="space-y-3 mt-4">
@@ -16,7 +39,7 @@ const Sidebar = (): JSX.Element => {
                      <span className="absolute inset-y-0 right-0 flex items-center py-4">
                         <button
                             type="submit"
-                            className="p-2 focus:outline-none focus:ring"
+                            className="p-2"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -37,28 +60,14 @@ const Sidebar = (): JSX.Element => {
                 </div>
                 <div className="flex-1">
                     <ul className="pt-2 pb-4 space-y-1 text-md">
-                        {BrawlersRarity.map(rarity => (
+                        {Object.values(brawlersRarityObj).map(rarity => (
                              <li key={useId()} className="rounded-sm">
-                             <a
-                                 href="#"
+                             <div
                                  className="flex items-center p-2 space-x-3 rounded-md"
                              >
-                                 <svg
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     className="w-6 h-6 text-gray-100"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     strokeWidth={2}
-                                 >
-                                     <path
-                                         strokeLinecap="round"
-                                         strokeLinejoin="round"
-                                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                     />
-                                 </svg>
-                                 <span className="text-gray-100">{rarity}</span>
-                             </a>
+                                   <input type="checkbox"  className="w-4 h-4 text-yellow-700 accent-yellow-700 bg-gray-100 border-gray-300 rounded focus:ring-yellow-700 dark:focus:ring-yellow-700 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
+                                 <span className="text-yellow-600">{capitalizeFirst(rarity.label)}</span>
+                             </div>
                          </li>
                         ))}
                     </ul>

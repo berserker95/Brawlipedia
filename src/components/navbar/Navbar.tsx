@@ -8,7 +8,7 @@ const Navbar = (): JSX.Element => {
             <span className="text-white text-xl">Brawlipedia</span>
         </div>
         <div className="flex flex-row gap-4 text-white text-lg">
-            <a href="/home/">Home</a>
+            <a href="/">Home</a>
             <a href="/brawlers/">Brawlers</a>
             <a href="/maps/">Maps</a>
             <a href="/clubs/">Clubs</a>
