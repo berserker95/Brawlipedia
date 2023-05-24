@@ -32,7 +32,7 @@ const Sidebar = (): JSX.Element => {
 
             Object.keys(updatedRarityChecked).forEach((checkboxName) => {
                 if (checkboxName !== "all") {
-                    updatedRarityChecked[checkboxName as keyof RarityObject] = checked ? false : true;
+                    updatedRarityChecked[checkboxName as keyof RarityObject] = !checked;
                 }
             });
 
@@ -45,9 +45,7 @@ const Sidebar = (): JSX.Element => {
                 };
 
                 // If any other checkbox is checked, set "all" checkbox accordingly
-                const isAnyOtherChecked = Object.values(updatedState).some(
-                    (value) => value === true
-                );
+                const isAnyOtherChecked = Object.values(updatedState).some(Boolean);
 
                 updatedState.all = !isAnyOtherChecked;
 
