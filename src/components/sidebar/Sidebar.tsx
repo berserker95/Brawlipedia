@@ -1,9 +1,7 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { capitalizeFirst } from '../../utils/utils';
 import { BrawlersRarity, BrawlersRarityType, RarityObject } from '../../models/models';
-import { useStore } from '@nanostores/react';
 import { brawlerRarity } from '../../store/store';
-import { WritableAtom } from 'nanostores';
 
 
 
@@ -20,7 +18,14 @@ const Sidebar = (): JSX.Element => {
     };
 
     const [rarityChecked, setRarityChecked] = useState<RarityObject>(brawlersRarityObj);
-    const $brawlerRarity = useStore(brawlerRarity);
+   
+
+
+    useEffect(() => {
+        const trueKeys = Object.keys(brawlersRarityObj).filter(key => rarityChecked[key as keyof RarityObject]);
+        brawlerRarity.set(trueKeys as BrawlersRarityType[]);
+
+    }, [rarityChecked]);
 
     const handleRarityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target;
