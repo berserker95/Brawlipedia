@@ -4,8 +4,5 @@ type BrawlerRarity = typeof BrawlersRarity[number];
 export type BrawlersRarityType = BrawlerRarity;
 
 export type RarityObject = {
-    [key in typeof BrawlersRarity[number]]: {
-      label: string;
-      value: boolean;
-    };
+    [key in typeof BrawlersRarity[number]]: boolean
   };
