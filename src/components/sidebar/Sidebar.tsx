@@ -1,62 +1,64 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useReducer, useState } from 'react';
 import { capitalizeFirst } from '../../utils/utils';
 import { BrawlersRarity, BrawlersRarityType, RarityObject } from '../../models/models';
 import { brawlerRarity } from '../../store/store';
 
+const initialState: RarityObject = {
+    all: true,
+    common: false,
+    rare: false,
+    superRare: false,
+    epic: false,
+    mythic: false,
+    legendary: false,
+    chromatic: false,
+};
+
+type Action =
+    | { type: 'UPDATE_ALL'; checked: boolean }
+    | { type: 'UPDATE_RARITY'; name: string; checked: boolean };
+
+const rarityReducer = (state: RarityObject, action: Action): RarityObject => {
+    switch (action.type) {
+        case 'UPDATE_ALL':
+            const updatedRarityChecked: RarityObject = { ...state, all: action.checked };
+            Object.keys(updatedRarityChecked).forEach((checkboxName) => {
+                if (checkboxName !== 'all') {
+                    updatedRarityChecked[checkboxName as keyof RarityObject] = !action.checked;
+                }
+            });
+            const trueKeys = Object.keys(updatedRarityChecked).filter(
+                (key) => updatedRarityChecked[key as keyof RarityObject]
+            );
+            brawlerRarity.set(trueKeys as BrawlersRarityType[]);
+            return updatedRarityChecked;
+        case 'UPDATE_RARITY':
+            const updatedState = { ...state, [action.name]: action.checked };
+            const isAnyOtherChecked = Object.values(updatedState).some(Boolean);
+            updatedState.all = !isAnyOtherChecked;
+            const trueKeysUpdated = Object.keys(updatedState).filter(
+                (key) => updatedState[key as keyof RarityObject]
+            );
+            brawlerRarity.set(trueKeysUpdated as BrawlersRarityType[]);
+            return updatedState;
+        default:
+            return state;
+    }
+};
 
 
 const Sidebar = (): JSX.Element => {
-    const brawlersRarityObj: RarityObject = {
-        all: true,
-        common: false,
-        rare: false,
-        superRare: false,
-        epic: false,
-        mythic: false,
-        legendary: false,
-        chromatic: false,
-    };
+    const [rarityChecked, dispatch] = useReducer(rarityReducer, initialState);
 
-    const [rarityChecked, setRarityChecked] = useState<RarityObject>(brawlersRarityObj);
-   
-
-
-    useEffect(() => {
-        const trueKeys = Object.keys(brawlersRarityObj).filter(key => rarityChecked[key as keyof RarityObject]);
-        brawlerRarity.set(trueKeys as BrawlersRarityType[]);
-
-    }, [rarityChecked]);
 
     const handleRarityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target;
-        if (name === "all") {
-            const updatedRarityChecked: RarityObject = {
-                ...rarityChecked,
-                all: checked,
-            };
-
-            Object.keys(updatedRarityChecked).forEach((checkboxName) => {
-                if (checkboxName !== "all") {
-                    updatedRarityChecked[checkboxName as keyof RarityObject] = !checked;
-                }
-            });
-
-            setRarityChecked(updatedRarityChecked);
+        if (name === 'all') {
+            dispatch({ type: 'UPDATE_ALL', checked });
         } else {
-            setRarityChecked((prevState) => {
-                const updatedState = {
-                    ...prevState,
-                    [name]: checked,
-                };
-
-                // If any other checkbox is checked, set "all" checkbox accordingly
-                const isAnyOtherChecked = Object.values(updatedState).some(Boolean);
-
-                updatedState.all = !isAnyOtherChecked;
-
-                return updatedState;
-            });
+            dispatch({ type: 'UPDATE_RARITY', name, checked });
         }
+
     }
 
     return (
