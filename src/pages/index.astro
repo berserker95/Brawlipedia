@@ -9,7 +9,7 @@ import Home from './home';
 <Layout title="Brawlipedia">
 	<main>
 		<Navbar/>
-		<section class="flex">
+		<section class="grid grid-cols-[0.1fr,1fr] items-center">
 			<Sidebar client:load/>
 			<Home client:idle/>
 		</section>
@@ -17,5 +17,7 @@ import Home from './home';
 </Layout>
 
 <style>
-
+ section {
+	height: 100vh;
+ }
 </style>

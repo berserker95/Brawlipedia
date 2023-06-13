@@ -62,7 +62,7 @@ const Sidebar = (): JSX.Element => {
     }
 
     return (
-        <div className="flex flex-col h-screen px-4 pb-4 pt-[5rem] bg-gray-800 shadow w-70">
+        <div className="flex flex-col h-full px-4 pb-4 pt-[5rem] bg-gray-800 shadow">
             <div className="space-y-3 mt-4">
                 <div className="relative">
 
@@ -70,7 +70,7 @@ const Sidebar = (): JSX.Element => {
                         type="text"
                         name="Search"
                         placeholder="Search a brawler"
-                        className="w-full h-[2.5rem] py-2 pl-5 text-sm rounded-md focus:outline-none"
+                        className="h-[2.5rem] py-2 pl-5 text-sm rounded-md focus:outline-none"
                     />
                     <span className="absolute inset-y-0 right-0 flex items-center py-4">
                         <button

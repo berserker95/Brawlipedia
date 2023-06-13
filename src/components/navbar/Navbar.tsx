@@ -9,7 +9,6 @@ const Navbar = (): JSX.Element => {
         </div>
         <div className="flex flex-row gap-4 text-white text-lg">
             <a href="/">Home</a>
-            <a href="/brawlers/">Brawlers</a>
             <a href="/maps/">Maps</a>
             <a href="/clubs/">Clubs</a>
             <a href="/about-me/">About me</a>
